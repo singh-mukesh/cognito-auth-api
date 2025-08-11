@@ -1,0 +1,28 @@
+service: cognito-auth-api
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+functions:
+  signup:
+    handler: src/signup.handler
+    events:
+      - http:
+          path: signup
+          method: post
+  login:
+    handler: src/login.handler
+    events:
+      - http:
+          path: login
+          method: post
+  profile:
+    handler: src/profile.handler
+    events:
+      - http:
+          path: profile
+          method: get
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
